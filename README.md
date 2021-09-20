@@ -4,18 +4,22 @@ A Travel Planner for Google Docs which find flight, hotel, activities and dinnin
 Made by Hagen Sopher, Sumedh Tadimeti, Colton Simpson, Colton Mulkey, Pin Lyu
 
 Flight
+
 -Enter in your flight dates and this app will gather the weather data for the week you are vacationing
 
 Hotel
+
 -Enter the price  and the mininmun rating you are looking for. 
 -The app will gather hotel options where you are traveling to and will give you basic information for the hotel as well as a link to their website
 
 Dining
+
 -Enter the type of food you are looking for, the price and the minimun rating you are looking for
 -The app will gather a list of dining places near your destination based on your inputs
 -THe app will display basic information on the food places as well as their website
 
 Recreation
+
 -Enter two types of recreation
 -The app will then grab information on places near your destination based on the types you enter
 
