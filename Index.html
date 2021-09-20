@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <?!= include('Index_css') ?>
+<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+
+
+<!-- JAVASCRIPT HERE -->
+<script>
+
+function setDepartureDateValidity()
+{
+  var current_date = new Date().toISOString().slice(0, 10);
+  console.log(current_date);
+  document.getElementById("Depature_Date").setAttribute("min", current_date);
+}
+
+function setReturnDateValidity()
+{
+  var departure_date = document.forms[0].elements.item(5).value;
+  console.log(departure_date);
+  var min_date = new Date(departure_date);
+  min_date.setDate(min_date.getDate() + 1);
+
+  document.getElementById("Return_Date").setAttribute("min", min_date.toISOString().slice(0, 10));  
+}
+
+
+
+</script>
+<!-- END JAVASCRIPT -->
+
+
+<body onload="setDepartureDateValidity()">
+
+<form id="myForm" onsubmit="event.preventDefault(); google.script.run.processForm(this)">
+
+  <!-- One "tab" for each step in the form: -->
+  <div class="tab">
+      <h1>Flight Information </h1>
+      <!-- Depature-->     
+      <label for="Departure">Departure: </label> 
+      <input type="text" id="Departure" name= "Departure" placeholder="Where from..." required/>
+      <br> 
+      <!-- Destination-->
+      <label for="Destination">Destination: </label> 
+      <input type="text" id="Destination" name= "Destination"  placeholder="Where to..." required />
+      <br> 
+      
+      <!-- Number of travelers-->
+        <label for="adults">Number of Adults (Ages 18 or Above):</label>
+         <select type="number" id="adults" name="adults">
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+           <option value="4">4</option>
+           <option value="5">5</option>
+           <option value="6">6</option>
+           <option value="7">7</option>
+           <option value="8">8</option>
+           <option value="9">9</option>
+           <option value="10">10</option>
+      </select>
+      <p>
+         <label for="children">Number of Children (Ages 0-17):</label>
+         <select type="number" id="children" name="children">
+           <option value="1">1</option>
+           <option value="2">2</option>
+           <option value="3">3</option>
+           <option value="4">4</option>
+           <option value="5">5</option>
+           <option value="6">6</option>
+           <option value="7">7</option>
+           <option value="8">8</option>
+           <option value="9">9</option>
+           <option value="10">10</option>
+      </select>
+      </p>
+
+      
+      
+      <!-- Flight Class-->
+      
+      Choose a travel class:
+      <select name="Class" id="Class" required>
+      <option value="First">First Class</option>
+      <option value="Business">Business Class</option>
+      <option value="Economy">Economy Class</option>
+      </select>
+      
+      <p>
+      <!-- Depature_Date-->
+      <label for="Depature_Date">Depature Date:</label>
+      <input type="date" id="Depature_Date" name="Depature_Date" oninput="setReturnDateValidity()" required />
+      </p>
+      <p>
+      <!-- Return_Date-->
+      <label for="Return_Date">Return Date:</label>
+      <input type="date" id="Return_Date" name="Return_Date" required />
+      </p>
+      <br>      
+
+  </div>
+  
+<div class="tab">
+        <h1>Housing Information </h1>
+        
+    <label for="Housing:">Housing Type:</label>
+      <select id="Housing" name="Housing">
+        <option value="Hotel">Hotel</option>
+      </select>
+      <br>
+      <label for="Housing:">Price Range:</label>
+      <select name="HousingPrice" id="HousingPrice" required>
+      <option value="1">Economic($)</option>
+      <option value="2">Affordable($$)</option>
+      <option value="3">Moderate($$$)</option>
+	  <option value="4">Expensive($$$$)</option>
+       <option value="5">Luxurious($$$$$)</option>
+      </select>
+      
+      <label for="Rating" required>Choose a minimum Rating:</label>
+      <select name="hotelRating" id="hotelRating">
+      <option value="1">1 star</option>
+      <option value="2">2 star</option>
+	  <option value="3">3 star</option>
+	  <option value="4">4 star</option>
+	  <option value="5">5 star</option>
+  </select>
+  
+         
+    <p class="impact">Note: You can view hotel options on Google map below.</p>     
+  </div>
+  
+  
+  
+  
+  <div class="tab">
+   <h1>Dining Information </h1>
+
+     <label for="Categories">Choose a category:</label>
+  <select name="category" id="category" onchange="show()" required>
+    <optgroup label="Categories">
+      <option value="restaurant">Restaurant</option>
+      <option value="bar">Bar</option>
+	  <option value="fast food">Fast Food</option>
+	  <option value="custom">Custom Search</option>
+    </optgroup>
+  </select>
+  
+  
+  <select name="restaurantType" id="restaurantType" >
+    <optgroup label="Type">
+      <option value="Mexican">Mexican</option>
+      <option value="Barbeque">Barbeque</option>
+	  <option value="Chinese">Chinese</option>
+	  <option value="Seafood">Seafood</option>
+    </optgroup>
+  </select>
+  
+  <label for="fname">Custom Search (N/A if not used)</label>
+  <input type="foodCustom" id="foodCustom" name="foodCustom" required />
+  
+  
+  
+  
+  
+  <br>
+  
+  <p>
+  <label for="Rating" required>Choose a minimum Rating:</label>
+  <select name="Rating" id="Rating">
+      <option value="1">1 star</option>
+      <option value="2">2 star</option>
+	  <option value="3">3 star</option>
+	  <option value="4">4 star</option>
+	  <option value="5">5 star</option>
+  </select>
+  </p>
+  
+  <p>
+  <select name="FoodPrice" id="FoodPrice" required>
+      <option value="cheap">Cheap</option>
+      <option value="moderate">Moderate</option>
+	  <option value="expensive">Expensive</option>
+  </select>
+  </p>
+  
+  </div>
+   <script>
+	//shows hidden input fields
+	function show(){
+		var v = document.getElementById("category").value;
+		disableAll();
+        //document.write(v);
+		if(v == "restaurant"){
+			document.getElementById('restaurantType').hidden = false;
+		}
+        if(v == "custom"){
+        	
+			document.getElementById('foodCustom').focus();
+        }
+		
+	}
+	
+	function disableAll(){
+        console.log("Disabling all element");
+		document.getElementById('restaurantType').hidden = true;
+        
+        //document.getElementById('foodSLabel').hidden = true;
+        //document.getElementById('foodSInput').hidden = true;
+	}
+  </script>
+  
+    <div class="tab">
+    <div id = "content">
+     <h1>Recreation Information </h1>
+    <label for="activity">First Activity</label>
+      <select id="activity" name="activity" onchange=RecShow()>
+        <option value="outdoors">Outdoors</option>
+        <option value="museum">Museum</option>
+        <option value="parks">Parks</option>
+        <option value="zoo">Zoo</option>
+        <option value="aquarium">Aquarium</option>
+        <option value="casino">Casino</option>
+        <option value="spa">Spa</option>
+        <option value="night_club">Night Club</option>
+        <option value="amusement_park">Amusement Park</option>
+        <option value="tourist_attraction">Sight Seeing</option>
+      </select>
+            
+      <!-- <p id = "showmuseum" hidden> -->
+      <label id="museum_label" hidden> Museum Type</label>
+      <select id="museum" name="museum" hidden>
+        <option value="art">Art</option>
+        <option value="science">History</option>
+        <option value="history">Science</option>
+        <option value="sport">Sports</option>
+      </select>
+      <!-- </p> -->
+      <br>
+      <label for="activityTwo">Second Activity</label>
+      <select id="activityTwo" name="activityTwo" onchange=RecShow()>
+        <option value="select">Select</option>
+        <option value="outdoors">Outdoors</option>
+        <option value="museum">Museum</option>
+        <option value="parks">Parks</option>
+        <option value="zoo">Zoo</option>
+        <option value="aquarium">Aquarium</option>
+        <option value="casino">Casino</option>
+        <option value="spa">Spa</option>
+        <option value="night_club">Night Club</option>
+        <option value="amusement_park">Amusement Park</option>
+        <option value="tourist_attraction">Sight Seeing</option>
+      </select>
+            
+      <!-- <p id = "showmuseum" hidden> -->
+      <label id="museum_label1" hidden> Museum Type</label>
+      <select id="museum1" name="museum1" hidden>
+        <option value="art">Art</option>
+        <option value="science">History</option>
+        <option value="history">Science</option>
+        <option value="sport">Sports</option>
+      </select>
+   </div>   
+      
+   <script>
+function RecShow(){
+    var activityType = document.getElementById("activity").value;
+    var activityTypeTwo = document.getElementById("activityTwo").value;
+	RecDisableAll();
+       //document.write(v)  
+    if(activityType === "museum"){
+        document.getElementById('museum_label').hidden = false;
+        document.getElementById('museum').hidden = false;
+        
+    }
+	if(activityTypeTwo === "museum"){
+        
+        document.getElementById('museum_label1').hidden = false;
+        document.getElementById('museum1').hidden = false;
+    }	
+}
+	
+function RecDisableAll(){
+    console.log("Hiding all elements");
+    document.getElementById('museum_label').hidden = true;
+    document.getElementById('museum').hidden = true;
+    document.getElementById('museum_label1').hidden = true;
+    document.getElementById('museum1').hidden = true;
+       // document.getElementById('foodsearch').setAttribute("disabled", "true");
+		
+	}
+    </script>
+      
+      
+  </div>
+  <div style="overflow:auto;">
+    <div style="float:right;">
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+    </div>
+  </div>
+  <!-- Circles which indicates the steps of the form: -->
+  <div style="text-align:center;margin-top:40px;">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+  <input type="submit" id="submit">
+  </div>
+</form>
+
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+  }
+  if (n == (x.length - 1)) {
+   document.getElementById("nextBtn").style.display = "none";
+    //document.getElementById("nextBtn").innerHTML = "Submit";
+  } else {
+   document.getElementById("nextBtn").style.display = "inline";
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+  if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+</script>
+
+<?!= include('map') ?>
+
+
+</body>
+</html>
+
